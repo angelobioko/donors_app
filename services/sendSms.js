@@ -13,7 +13,7 @@ export const sendSMS = async (postData) => {
 
     try {
       const smsRes = await apiClient.post(url, smsData);
-      
+      console.log('Sms Res: ', smsRes);
       return smsRes;
     } catch (error) {
       console.error('Error sending SMS:', error);
