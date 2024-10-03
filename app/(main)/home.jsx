@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button, Dimensions, Pressable, StyleSheet, Text, View, Image, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Button, Dimensions, Pressable, StyleSheet, Text, View, Image, Alert, ScrollView } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper'
 import { useAuth } from '../../contexts/AuthContext'
 import { supabase } from '../../lib/supabase'
@@ -10,12 +10,14 @@ import { useRouter } from 'expo-router'
 import Avatar from '../../components/Avatar'
 import Swiper from 'react-native-swiper';
 import { TouchableOpacity } from 'react-native';
+import { getStatistics } from '../../services/statService';
+import { showMessage } from 'react-native-flash-message';
 
 const { width } = Dimensions.get('window');
 const Home = () => {
 
     const {user,setAuth} = useAuth();
-    console.log('user: ', user);
+    const [statData,setStatData] = useState();
     
     const router = useRouter();
 
@@ -26,15 +28,31 @@ const Home = () => {
         { id: 4, image: require('../../assets/images/Vinnie4.jpg') }
       ];
 
+      useEffect(()=>{
+        getStats();
+    },[])
 
-    const onLogout = async ()=>{
-        const {error} = await supabase.auth.signOut();
+    // Function to get statistic data from DB
+    const getStats = async () => {
+      const statRes = await getStatistics();
 
-        if(error){
-            Alert.alert('Sign Out', 'Error signing out!' ); 
-        }
-
+      if(statRes.success){
+        //
+        setStatData(statRes?.data);
+        console.log('Stats Result :', statRes)
+        return
+      }
+     
+      showMessage({ message: statRes.msg, type: 'danger' });
+      
     }
+
+    // Function to handle pull-down refresh
+    const onRefresh = async () => {
+      setRefreshing(true);
+      await getStats(); // Fetch new data here
+      setRefreshing(false);
+    };
 
 
   return (
@@ -82,24 +100,36 @@ const Home = () => {
         </View>
         {/* Stats Section */}
         <View style={{flex:1}}>
-        <View style={styles.statsContainer}>
-          {/* Envelope Stats */}
-          <TouchableOpacity style={styles.statCard}>
-            <Text style={styles.statNumber}>18</Text>
-            <Text style={styles.statLabel}>Envelopes</Text>
-          </TouchableOpacity>
+          {/* first column */}
+          <View style={styles.statsContainer}>
+            {/* Envelope Stats */}
+            <TouchableOpacity style={styles.statCard}>
+              <Text style={styles.statNumber}>{statData?.envelopes}</Text>
+              <Text style={styles.statLabel}>Envelopes</Text>
+            </TouchableOpacity>
 
-          {/* Parcel Stats */}
-          <TouchableOpacity style={styles.statCard}>
-            <Text style={styles.statNumber}>25</Text>
-            <Text style={styles.statLabel}>Parcels</Text>
-          </TouchableOpacity>
-        </View>
-        </View>
-        
+            {/* Parcel Stats */}
+            <TouchableOpacity style={styles.statCard}>
+              <Text style={styles.statNumber}>{statData?.parcels}</Text>
+              <Text style={styles.statLabel}>Parcels</Text>
+            </TouchableOpacity>
+          </View>
 
-      
-      {/* <Button title='logout' onPress={onLogout} /> */}
+          {/* second column */}
+          <View style={styles.statsContainer}>
+            {/* Envelope Stats */}
+            <TouchableOpacity style={styles.statCard}>
+              <Text style={styles.statNumber}>{statData?.smssent}</Text>
+              <Text style={styles.statLabel}>SMS sent</Text>
+            </TouchableOpacity>
+
+            {/* Parcel Stats */}
+            <TouchableOpacity style={styles.statCard}>
+              <Text style={styles.statNumber}>{statData?.smsfailed}</Text>
+              <Text style={styles.statLabel}>SMS failed</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
     </ScreenWrapper>
   )
 }
@@ -142,11 +172,11 @@ const styles = StyleSheet.create({
     slide: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: hp(35),
+        height: hp(45),
       },
       image: {
         width: width - 20,
-        height: hp(35),
+        height: hp(45),
         borderRadius: 10,
       },
       dot: {
@@ -163,10 +193,14 @@ const styles = StyleSheet.create({
         //flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-around',
+        marginVertical: hp(2), // Adjust for spacing between rows
+        paddingHorizontal: wp(5),  // Add padding for responsiveness
         //marginTop: -hp(10)
       },
       statCard: {
         //backgroundColor: '#444',
+        flex: 1,  // Each card takes equal width
+        marginHorizontal: wp(1),
         paddingVertical: hp(5),
         paddingHorizontal: wp(15),
         borderRadius: 10,

@@ -3,4 +3,4 @@
  export const mnotifybaseUrl = 'https://api.mnotify.com/api';
  export const mnotifyKey = '8g7KMp8q3xZ9KgDgSt1DkEYIS';
  export const sms = 'Dear name, \n Gift received, smiles guaranteed! Thanks for helping us start our new life together, now we can afford our dream vacation :). \n The Addos'
- export const sender = 'FIRESEC'
+ export const sender = 'TheAddos'
