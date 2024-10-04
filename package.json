@@ -44,7 +44,8 @@
     "react-native-swiper": "^1.6.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.10",
-    "react-native-webview": "^13.8.6"
+    "react-native-webview": "^13.8.6",
+    "expo-updates": "~0.25.26"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

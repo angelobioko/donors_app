@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.angelobioko.gifts"
     },
     "web": {
       "bundler": "metro",
@@ -31,6 +32,18 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4344397d-6d30-460f-b161-3f3dff907874"
+      }
+    },
+    "owner": "angelobioko",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/4344397d-6d30-460f-b161-3f3dff907874"
     }
   }
 }
