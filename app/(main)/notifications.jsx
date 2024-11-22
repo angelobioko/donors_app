@@ -41,7 +41,7 @@ const Notifications = () => {
   return (
     <ScreenWrapper>
       <View style={styles.container}>
-        <Header title="Records" showBackButton={true} /> 
+        <Header title="All Records" showBackButton={true} /> 
 
         {/* records */}
         <FlatList
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginBottom: 30,
-    paddingHorizontal: wp(4),
+    paddingHorizontal: 0,
     gap: 15,
   },
   listStyle:{

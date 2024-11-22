@@ -27,26 +27,15 @@ const RecordCard = ({
   return (
     <View style={[styles.container,hasShadow && shadowStyles]}>
         <View style={styles.header}>
+        <Icon name="mail"  color={smsSent? theme.colors.primary : theme.colors.rose}/>
             <View style={styles.rightDiv}>
-                <Icon name="mail"  color={smsSent? theme.colors.primary : theme.colors.rose}/>
+                
                 <View style={{gap: 3, marginLeft:2}}>
                     <Text style={styles.name}>{item?.name}</Text>
-                    <Text>{item?.phone}</Text>
+                    <Text>{createdAt} || {item?.phone} || {item?.giftType} </Text>
                 </View>
             </View>
             
-            {/* <View>
-                <Text style={styles.name}>_</Text>
-                <Text>{item?.giftType}</Text>
-            </View> */}
-            <View>
-                {/* <TouchableOpacity>
-                    <Icon name="threeDotsVertical" color={theme.colors.text} /> 
-                </TouchableOpacity> */}
-
-                <Text>{item?.giftType}</Text>
-                <Text>{createdAt}</Text>
-            </View>
         </View>
     </View>
   )
@@ -69,13 +58,14 @@ const styles = StyleSheet.create({
     },
     header: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        //justifyContent: 'space-around'
     },
     name: {
         fontSize: hp(2.5),
         color: theme.colors.textDark
     },
     rightDiv: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginLeft:10
     }
 })

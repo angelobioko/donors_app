@@ -29,14 +29,14 @@ const Home = () => {
   const { user, setAuth } = useAuth();
   const [statData, setStatData] = useState();
   const [refreshing, setRefreshing] = useState();
+  
 
   const router = useRouter();
 
   const data = [
-    { id: 1, image: require("../../assets/images/Vinnie1.jpg") },
-    { id: 2, image: require("../../assets/images/Vinnie2.jpg") },
-    { id: 3, image: require("../../assets/images/Vinnie3.jpg") },
-    { id: 4, image: require("../../assets/images/Vinnie4.jpg") },
+    { id: 1, image: require("../../assets/images/Joy1.jpeg") },
+    { id: 2, image: require("../../assets/images/Joy2.jpeg") },
+    { id: 3, image: require("../../assets/images/Joy3.jpeg") },
   ];
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const Home = () => {
   // Function to get statistic data from DB
   const getStats = async () => {
     const statRes = await getStatistics();
-
+    //const {error} = await supabase.auth.signOut();
     if (statRes.success) {
       //
       setStatData(statRes?.data);
@@ -100,7 +100,7 @@ const Home = () => {
             <Pressable onPress={() => router.push("profile")}>
               <Avatar
                 uri={user?.image}
-                size={hp(4.3)}
+                size={hp(3.2)}
                 rounded={theme.radius.sm}
                 style={{ borderWidth: 2 }}
               />
@@ -129,26 +129,28 @@ const Home = () => {
       {/* Stats Section */}
       <View style={{ flex: 1 }}>
         <View style={styles.statsContainer}>
-          <TouchableOpacity style={styles.statCard}>
+          <TouchableOpacity 
+            style={styles.statCard}
+            onPress={() => router.push("notifications")}>
             <Text style={styles.statNumber}>
-              {statData?.envelopes || "N/A"}
+              {statData?.envelopes || "0"}
             </Text>
             <Text style={styles.statLabel}>Envelopes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.statCard}>
-            <Text style={styles.statNumber}>{statData?.parcels || "N/A"}</Text>
+            <Text style={styles.statNumber}>{statData?.parcels || "0"}</Text>
             <Text style={styles.statLabel}>Parcels</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.statsContainer}>
           <TouchableOpacity style={styles.statCard}>
-            <Text style={styles.statNumber}>{statData?.smssent || "N/A"}</Text>
+            <Text style={styles.statNumber}>{statData?.smssent || "0"}</Text>
             <Text style={styles.statLabel}>SMS Sent</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.statCard}>
             <Text style={styles.statNumber}>
-              {statData?.smsfailed || "N/A"}
+              {statData?.smsfailed || "0"}
             </Text>
             <Text style={styles.statLabel}>SMS Failed</Text>
           </TouchableOpacity>
@@ -207,7 +209,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   dot: {
-    backgroundColor: "gray",
+    backgroundColor: "white",
   },
   activeDot: {
     backgroundColor: "blue",
@@ -229,7 +231,7 @@ const styles = StyleSheet.create({
     flex: 1, // Each card takes equal width
     marginHorizontal: wp(1),
     paddingVertical: hp(5),
-    paddingHorizontal: wp(15),
+    paddingHorizontal: wp(10),
     borderRadius: 10,
     alignItems: "center",
     shadowOffset: {
@@ -250,7 +252,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   statLabel: {
-    fontSize: 16,
+    fontSize: 14,
     // color: 'white',
   },
 });

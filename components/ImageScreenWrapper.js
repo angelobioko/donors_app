@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function ImageScreenWrapper ({children,bgImage}) {
     const {top} = useSafeAreaInsets();
     const paddingTop = top>0? top+5 : 30;
+    // const paddingTop = 0;
       return (
         <ImageBackground
         source={bgImage} // The background image source
